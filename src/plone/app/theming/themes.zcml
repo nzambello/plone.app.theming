@@ -8,4 +8,10 @@
         directory="themes/template"
         />
 
+    <plone:static
+        type="theme"
+        name="example"
+        directory="themes/example"
+        />
+
 </configure>
