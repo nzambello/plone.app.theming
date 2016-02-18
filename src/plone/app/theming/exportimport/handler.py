@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-from lxml import etree
 from plone.app.theming.interfaces import IThemeSettings
 from plone.app.theming.utils import applyTheme
 from plone.app.theming.utils import getAvailableThemes
 from plone.registry.interfaces import IRegistry
+from xml.dom import minidom
 from zope.component import getUtility
 
 
@@ -18,41 +18,43 @@ def importTheme(context):
 
     logger = context.getLogger('plone.app.theming.exportimport')
 
-    tree = etree.fromstring(data)
+    import ipdb; ipdb.set_trace()
 
-    # apply theme if given and valid
-    themeName = tree.find("name")
-    if themeName is not None:
-        themeName = themeName.text.strip()
-        themeInfo = None
+    tree = minidom.parseString(data)
+    themes = tree.getElementsByTagName('theme')
+    all_themes = getAvailableThemes()
+    for theme in themes:
+        for node in theme.childNodes:
 
-        allThemes = getAvailableThemes()
-        for info in allThemes:
-            if info.__name__.lower() == themeName.lower():
-                themeInfo = info
-                break
+            value = node.firstChild.nodeValue.strip()
 
-        if themeInfo is None:
-            raise ValueError("Theme {0:s} is not available".format(themeName))
+            if node.tagName == 'name':
+                if value:
+                    theme_info = None
+                    for info in all_themes:
+                        if info.__name__.lower() == value.lower():
+                            theme_info = info
+                            break
 
-        applyTheme(themeInfo)
-        logger.info('Theme {0:s} applied'.format(themeName))
+                    if theme_info is None:
+                        raise ValueError(
+                            "Theme {0:s} is not available".format(value))
 
-    # enable/disable theme
-    themeEnabled = tree.find("enabled")
-    if themeEnabled is None:
-        return
+                    applyTheme(theme_info)
+                    logger.info('Theme {0:s} applied'.format(value))
 
-    settings = getUtility(IRegistry).forInterface(IThemeSettings, False)
+            if node.tagName == 'enabled':
+                settings = getUtility(IRegistry).forInterface(IThemeSettings, False)
 
-    themeEnabled = themeEnabled.text.strip().lower()
-    if themeEnabled in ("y", "yes", "true", "t", "1", "on",):
-        settings.enabled = True
-        logger.info('Theme enabled')
-    elif themeEnabled in ("n", "no", "false", "f", "0", "off",):
-        settings.enabled = False
-        logger.info('Theme disabled')
-    else:
-        raise ValueError(
-            "{0:s} is not a valid value for <enabled />".format(themeEnabled)
-        )
+                if value in ("y", "yes", "true", "t", "1", "on",):
+                    settings.enabled = True
+                    logger.info('Theme enabled')
+                elif value in ("n", "no", "false", "f", "0", "off",):
+                    settings.enabled = False
+                    logger.info('Theme disabled')
+                else:
+                    raise ValueError(
+                        "{0:s} is not a valid value for <enabled />".format(
+                            value
+                        )
+                    )
