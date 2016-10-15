@@ -62,6 +62,15 @@
         handler=".policy.invalidateCache"
         />
 
+    <!-- metrics -->
+    <subscriber
+        for="plone.transformchain.interfaces.IBeforeSingleTransformEvent"
+        handler=".metrics.metrics_entry"
+        />
+    <subscriber
+        for="plone.transformchain.interfaces.IAfterSingleTransformEvent"
+        handler=".metrics.metrics_exit"
+        />
     <!-- policy adapter
          You can plug in a custom adapter by registering it for your own layer
          eg for="your.product.interfaces.IThemeSwitcher".  -->
