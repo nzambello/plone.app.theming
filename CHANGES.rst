@@ -2,12 +2,13 @@ Changelog
 =========
 
 
-3.0.1 (unreleased)
-------------------
+4.0 (unreleased)
+----------------
 
 Breaking changes:
 
-- *add item here*
+- Factor out all static resources into plone.staticresources as part of PLIP 1653.
+  [thet, sunew]
 
 New features:
 
@@ -23,7 +24,7 @@ Bug fixes:
 
 New features:
 
-- Recompiled resource bundles with latest mockup
+- Recompiled resource bundles with latest mockup.
   [sunew]
 
 Bug fixes:

@@ -5,7 +5,7 @@ from setuptools import setup
 import os
 
 
-version = '3.0.1.dev0'
+version = '4.0.dev0'
 
 longdescription = open("README.rst").read()
 longdescription += "\n\n"
@@ -55,7 +55,6 @@ setup(
         'five.globalrequest',
         'lxml>=2.2.4',
         'plone.app.registry>=1.0a2',
-        'plone.resource>=1.0b5',
         'plone.resourceeditor>=2.0.0.dev',
         'plone.subrequest',
         'plone.transformchain',
