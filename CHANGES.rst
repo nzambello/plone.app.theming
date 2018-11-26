@@ -9,6 +9,9 @@ Breaking changes:
 
 - Factor out all static resources into plone.staticresources as part of PLIP 1653.
   [thet, sunew]
+- Remove five.globalrequest dependency.
+  It has been deprecated upstream (Zope 4).
+  [gforcada]
 
 New features:
 

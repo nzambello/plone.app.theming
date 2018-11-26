@@ -52,7 +52,6 @@ setup(
         'Products.CMFPlone',
         'diazo>=1.0.3',
         'docutils',
-        'five.globalrequest',
         'lxml>=2.2.4',
         'plone.app.registry>=1.0a2',
         'plone.resourceeditor>=2.0.0.dev',
